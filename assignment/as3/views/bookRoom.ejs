@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link href="style.css" />
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    </head>
+    <body>
+        <div>
+            <h1
+                class="text-xl text-center font-semibold mb-10 mt-10 text-indigo-500"
+            >
+                Book a Karaoke Room
+            </h1>
+            <div class="border-1 p-10 container justify-center mx-auto">
+                <div class="w-1/2 mx-auto">
+                    <h1 class="block text-xl">Customer Name</h1>
+                    <input
+                        id="customeName"
+                        type="text"
+                        class="border-1 w-full rounded"
+                        placeholder="enter your name"
+                        value="<%= payload.customerName %>"
+                    />
+                </div>
+                <div class="w-1/2 mx-auto">
+                    <h1 class="block text-xl">Room number</h1>
+                    <input
+                        id="roomNumber"
+                        type="text"
+                        class="border-1 w-full rounded"
+                        placeholder="enter room number"
+                        value="<%= payload.roomNumber %>"
+                    />
+                </div>
+                <div class="w-1/2 mx-auto">
+                    <h1 class="block text-xl">Start time</h1>
+                    <input
+                        id="startTime"
+                        type="datetime-local"
+                        class="border-1 w-full rounded"
+                        value="<%= payload.startTime %>"
+                    />
+                </div>
+                <div class="w-1/2 mx-auto">
+                    <h1 class="block text-xl">End time</h1>
+                    <input
+                        id="endTime"
+                        type="datetime-local"
+                        class="border-1 w-full rounded"
+                        value="<%= payload.endTime %>"
+                    />
+                </div>
+                <div class="w-1/2 mx-auto mt-10">
+                    <button
+                        class="border-1 cursor-pointer w-full mb-10 rounded text-white bg-indigo-500 p-4"
+                        id="update"
+                    >
+                        updateRoom
+                    </button>
+                    <a
+                        href="/room"
+                        class="border-1 cursor-pointer w-full rounded text-white bg-red-500 p-4"
+                    >
+                        go back
+                    </a>
+                </div>
+            </div>
+        </div>
+        <script>
+            const b = document.querySelector("#bookRoom");
+            b.addEventListener("click", async (e) => {
+                e.preventDefault();
+                const customerName =
+                    document.getElementById("customeName").value;
+                const roomNumber = document.getElementById("roomNumber").value;
+                const startTime = document.getElementById("startTime").value;
+                const endTime = document.getElementById("endTime").value;
+                console.log(customerName, roomNumber, startTime, endTime);
+                const response = await fetch(
+                    "http://localhost:3000/room/book",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify({
+                            customerName: customerName,
+                            roomNumber: roomNumber,
+                            startTime: startTime,
+                            endTime: endTime,
+                        }),
+                    }
+                );
+                if (response.ok) {
+                    alert("success");
+                }
+            });
+        </script>
+    </body>
+</html>

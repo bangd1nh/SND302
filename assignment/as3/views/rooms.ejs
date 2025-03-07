@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <link href="style.css" />
+        <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    </head>
+    <body>
+        <div>
+            <h1 class="text-center text-2xl font-semibold text-indigo-500">
+                Room Bookings
+            </h1>
+            <a href="/room/book" class="underline text-blue-800 text-center"
+                >insert booking</a
+            >
+            <table class="mx-auto">
+                <thead>
+                    <th>Customer Name</th>
+                    <th>Room Number</th>
+                    <th>Start Time</th>
+                    <th>End Time</th>
+                    <th>Total Time</th>
+                    <th>Action</th>
+                </thead>
+                <tbody>
+                    <% payload.forEach(room => { %>
+                    <tr class="text-center">
+                        <td class="border p-2"><%= room.customerName %></td>
+                        <td class="border p-2"><%= room.roomNumber %></td>
+                        <td class="border p-2"><%= room.startTime %></td>
+                        <td class="border p-2"><%= room.endTime %></td>
+                        <td class="border p-2"><%= room.totalAmount %></td>
+                        <td class="border p-2">
+                            <a
+                                href="room/edit/<%= room._id %>"
+                                class="px-3 py-1 bg-blue-500 text-white rounded edit"
+                            >
+                                Edit
+                            </a>
+                            <button
+                                id="<%= room._id %>"
+                                class="px-3 py-1 bg-red-500 text-white rounded delete"
+                            >
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        </div>
+        <script>
+            const a = document.querySelectorAll(".delete");
+            a.forEach((button) => {
+                button.addEventListener("click", async (e) => {
+                    console.log(button.id);
+                    const response = await fetch(
+                        `http://localhost:3000/room/delete/${button.id}`,
+                        {
+                            method: "DELETE",
+                        }
+                    );
+                    if (response.ok) {
+                        window.location.reload();
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>
