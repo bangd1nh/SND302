@@ -26,7 +26,7 @@ karaoke.delete("/delete/:bookId", async (req, res) => {
 
 karaoke.get("/book", async (req, res) => {
     const result = await Book.find();
-    res.render("bookRoom", { payload: result });
+    res.render("bookRoom");
 });
 
 karaoke.post("/book", async (req, res) => {
