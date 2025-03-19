@@ -1,6 +1,7 @@
 import express from "express";
 import Book from "../model/booking.js";
 import Room from "../model/room.js";
+import { validateDate } from "../middleware/validate.js";
 
 const booking = express.Router();
 
@@ -9,7 +10,7 @@ booking.get("/", async (req, res) => {
     res.status(200).send(result);
 });
 
-booking.post("/", async (req, res) => {
+booking.post("/", validateDate, async (req, res) => {
     const roomExist = await Room.findOne({
         roomNumber: req.body.roomNumber,
     });
@@ -33,7 +34,7 @@ booking.post("/", async (req, res) => {
     res.status(404).send({ message: "room not found" });
 });
 
-booking.put("/:bookingId", async (req, res) => {
+booking.put("/:bookingId", validateDate, async (req, res) => {
     const { bookingId } = req.params;
 
     const roomExist = await Room.findOne({
